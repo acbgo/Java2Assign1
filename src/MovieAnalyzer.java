@@ -86,6 +86,12 @@ public class MovieAnalyzer {
             list4.add(star2);list4.add(star3);
             list5.add(star2);list5.add(star4);
             list6.add(star3);list6.add(star4);
+            Collections.sort(list1);
+            Collections.sort(list2);
+            Collections.sort(list3);
+            Collections.sort(list4);
+            Collections.sort(list5);
+            Collections.sort(list6);
             map_put(temp,list1);
             map_put(temp,list2);
             map_put(temp,list3);
@@ -109,7 +115,7 @@ public class MovieAnalyzer {
             map.put(list, map.get(list)+1);
     }
 
-    public List<String> getTopMovies(int top_k, String by){
+    public  List<String> getTopMovies(int top_k, String by){
         List<String> result = new ArrayList<>();
         ArrayList<Movie> temp = new ArrayList<>(movies);
         if (by.equals("runtime")){
@@ -135,10 +141,7 @@ public class MovieAnalyzer {
         for (int i = 0; i < top_k; i++) {
             Movie movie = temp.get(i);
             String name = movie.Series_Title;
-            if (name.contains("\""))
-                result.add(name.substring(1, name.length()-1));
-            else
-                result.add(name);
+            result.add(name);
         }
         return result;
     }
@@ -184,6 +187,7 @@ public class MovieAnalyzer {
                     temp += s;
                 }
                 Double gross = Double.parseDouble(temp);
+
                 gross_put(star_gross,star1,gross);
                 count_put(star_count,star1);
 
@@ -227,22 +231,24 @@ public class MovieAnalyzer {
         for (Map.Entry<String,Double> entry : list){
             String key = entry.getKey();
             int count = star_count.get(key);
-            if (count == 1)
-                continue;
-            Double gross = entry.getValue();
-            gross = gross/count;
-            map.put(key,gross);
+            if (count > 1){
+                Double value = entry.getValue();
+                value = value/count;
+                map.put(key,value);
+            }
         }
-        Collections.sort(list, ((o1, o2) -> {
+        List<Map.Entry<String, Double>> list1 = new ArrayList<>(map.entrySet());
+        Collections.sort(list1, ((o1, o2) -> {
             if (o2.getValue() > o1.getValue())
                 return 1;
-            else if (o1.getValue() == o2.getValue()) {
+            else if (o1.getValue().doubleValue() == o2.getValue().doubleValue()) {
                 return o1.getKey().compareTo(o2.getKey());
             }
             else
                 return -1;
         }));
-        return list;
+
+        return list1;
     }
 
     public  List<String> searchMovies(String genre, float min_rating, int max_runtime){
@@ -273,7 +279,10 @@ public class MovieAnalyzer {
 
 
         public Movie(String[] strings) {
-            Series_Title = strings[1];
+            String name = strings[1];
+            if (name.contains("\""))
+                name = name.substring(1, name.length()-1);
+            Series_Title = name;
             Released_Year = Integer.parseInt(strings[2]);
             Certificate = strings[3];
             Runtime = Integer.parseInt(strings[4].substring(0, strings[4].length()-4));
