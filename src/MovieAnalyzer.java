@@ -275,7 +275,7 @@ public class MovieAnalyzer {
         private String Series_Title, Certificate, Genre, Overview;
         private String Director, Star1, Star2, Star3, Star4, Gross;
         private int Released_Year, Meta_score, No_of_Votes, Runtime;
-        private double IMDB_Rating;
+        private float IMDB_Rating;
 
 
         public Movie(String[] strings) {
@@ -287,7 +287,7 @@ public class MovieAnalyzer {
             Certificate = strings[3];
             Runtime = Integer.parseInt(strings[4].substring(0, strings[4].length()-4));
             Genre = strings[5];
-            IMDB_Rating = Double.parseDouble(strings[6]);
+            IMDB_Rating = Float.parseFloat(strings[6]);
             String overView = strings[7];
             if (overView.charAt(0) == '"')
                 overView = overView.substring(1,overView.length()-1);
