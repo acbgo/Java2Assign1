@@ -55,10 +55,15 @@ public class test {
 //        String str1 = "Il buono, il brutto, il cattivo",str2 = "Il buono, il brutto, il cattivo";
 //        System.out.println(str1.equals(str2));
 
-        double a = 30.1, b = 30.1;
-        System.out.println(a == b);
-        double c = a/3, d = b/3;
-        System.out.println(c == d);
+//        double a = 30.1, b = 30.1;
+//        System.out.println(a == b);
+//        double c = a/3, d = b/3;
+//        System.out.println(c == d);
+
+        String overView = "\"strings[70]\"";
+        if (overView.charAt(0) == '"')
+            overView = overView.substring(1,overView.length()-1);
+        System.out.println(overView);
 
 
 //        public static void main(String[] args) throws IOException {

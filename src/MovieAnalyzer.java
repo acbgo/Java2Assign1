@@ -288,7 +288,10 @@ public class MovieAnalyzer {
             Runtime = Integer.parseInt(strings[4].substring(0, strings[4].length()-4));
             Genre = strings[5];
             IMDB_Rating = Double.parseDouble(strings[6]);
-            Overview = strings[7];
+            String overView = strings[7];
+            if (overView.charAt(0) == '"')
+                overView = overView.substring(1,overView.length()-1);
+            Overview = overView;
 //            Meta_score = Integer.parseInt(strings[8]);
             Director = strings[9];
             Star1 = strings[10];
